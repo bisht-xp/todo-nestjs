@@ -6,13 +6,21 @@ import { AuthDto } from './dto';
 export class AuthController {
   constructor(private authService: AuthService) {}
   @Post('v1/auth/signup')
-  signup(@Body(new ValidationPipe()) dto: AuthDto) {
-    console.log({dto});
-    return this.authService.singup();
+  signup(
+    @Body(
+      new ValidationPipe({
+        whitelist: true,
+        forbidNonWhitelisted: true,
+      }),
+    )
+    dto: AuthDto,
+  ) {
+    // console.log({ dto });
+    return this.authService.singup(dto);
   }
 
   @Post('v1/auth/signin')
-  signin() {
-    return this.authService.singin();
+  signin(@Body() dto: AuthDto) {
+    return this.authService.singin(dto);
   }
 }
