@@ -5,6 +5,7 @@ import { User } from 'src/model/user.model';
 import { AuthDto } from './dto';
 import * as argon2 from 'argon2';
 import { domainToASCII } from 'url';
+import { generateAccessToken } from 'src/utils/jwt';
 
 @Injectable()
 export class AuthService {
@@ -38,27 +39,30 @@ export class AuthService {
   async singin(dto: AuthDto) {
     try {
       //Check the user by email
-      let user = await this.userModel.findOne({email: dto.email});
+      let user = await this.userModel.findOne({ email: dto.email });
 
       //If user does not exist throw error
-      if(!user) {
+      if (!user) {
         throw new ForbiddenException('User does not exist!!');
       }
       //Compare password and if password is incorre  ct throw error
-      if(!(await argon2.verify(user.password, dto.password))) {
-        throw new ForbiddenException('Email and password does not match!')
+      if (!(await argon2.verify(user.password, dto.password))) {
+        throw new ForbiddenException('Email and password does not match!');
       }
 
-      delete user.password
+      const jwt = await generateAccessToken({
+        userId: user.id,
+      });
+
+      delete user.password;
       //If All good return user
       return {
         status: true,
-        message: "Successful Login",
-        user
-      }
+        message: 'Successful Login',
+        jwt,
+      };
     } catch (error) {
       throw error;
     }
-  
   }
 }
