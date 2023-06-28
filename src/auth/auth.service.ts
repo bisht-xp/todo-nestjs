@@ -4,7 +4,6 @@ import { Model, MongooseError } from 'mongoose';
 import { User } from 'src/model/user.model';
 import { AuthDto } from './dto';
 import * as argon2 from 'argon2';
-import { domainToASCII } from 'url';
 import { generateAccessToken } from 'src/utils/jwt';
 
 @Injectable()
@@ -54,12 +53,11 @@ export class AuthService {
         userId: user.id,
       });
 
-      delete user.password;
       //If All good return user
       return {
         status: true,
         message: 'Successful Login',
-        jwt,
+        access_token: jwt,
       };
     } catch (error) {
       throw error;
