@@ -1,10 +1,9 @@
 import * as jwt from 'jsonwebtoken';
 import * as dotenv from 'dotenv';
-dotenv.config();
+dotenv.config()
 
-export const EXPIRATION_TIME = '1h';
+export const EXPIRATION_TIME = '15m';
 
-console.log(process.env.JWT_SECRET_KEY);
 export const generateAccessToken = (data: {
   email?: string;
   address?: string;
