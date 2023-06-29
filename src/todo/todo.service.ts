@@ -10,19 +10,24 @@ dotenv.config();
 export class TodoService {
   constructor(@InjectModel(Todo.name) private todoModel: Model<Todo>) {}
 
-  async createTodo(data: newTask) {
-    let newTask = await this.todoModel.create({ ...data });
-    newTask = await newTask.save();
+  async createTodo(data: newTask, userID: string) {
+    let createTask = {
+      ...data,
+      userID: userID,
+    };
+    let task = new this.todoModel(createTask);
+    await task.save();
     return {
       status: true,
       message: 'new task created successfully...',
-      newTask,
+      task,
     };
   }
 
-  // allTodos() {
-  //   return this.todos;
-  // }
+  allTodos() {
+    const todos = this.todoModel.find().populate('userID');
+    return todos;
+  }
 
   // patchTodo(id) {
   //   console.log(id.id);
