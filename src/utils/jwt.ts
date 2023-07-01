@@ -2,7 +2,7 @@ import * as jwt from 'jsonwebtoken';
 import * as dotenv from 'dotenv';
 dotenv.config()
 
-export const EXPIRATION_TIME = '15m';
+export const EXPIRATION_TIME = '24hr';
 
 export const generateAccessToken = (data: {
   email?: string;
