@@ -1,5 +1,15 @@
-import { Body, Controller, Get, Headers, Post, Put } from '@nestjs/common';
-import { newTask } from './todo.dto';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Headers,
+  Param,
+  Post,
+  Put,
+  Query,
+} from '@nestjs/common';
+import { newTask, updateTodo } from './todo.dto';
 import { TodoService } from './todo.service';
 import { verifyAccessToken } from 'src/utils/jwt';
 
@@ -19,12 +29,39 @@ export class TodoController {
   }
 
   @Get('v1/all')
-  showAllTask() {
-    return this.todoService.allTodos();
+  async showAllTask(@Headers() jwtToken: any) {
+    try {
+      const token = jwtToken['x-access-token'];
+      const data = await verifyAccessToken(token);
+      return this.todoService.getAllTodos();
+    } catch (error) {
+      throw error;
+    }
   }
 
-  // @Put('v1/update/:id')
-  // update(@Param() id) {
-  //   return this.todoService.patchTodo(id);
-  // }
+  @Put('v1/update/')
+  async updateTodo(
+    @Headers() jwtToken: any,
+    @Query('id') id: string,
+    @Body() data: updateTodo,
+  ) {
+    try {
+      const token = jwtToken['x-access-token'];
+      const tokenData = await verifyAccessToken(token);
+      return this.todoService.updateTask(id, data);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  @Delete('v1/delete')
+  async deleteTodo(@Headers() jwtToken: any, @Query('id') id: string) {
+    try {
+      const token = jwtToken['x-access-token'];
+      const tokenData = await verifyAccessToken(token);
+      return this.todoService.deleteTask(id);
+    } catch (error) {
+      throw error;
+    }
+  }
 }
