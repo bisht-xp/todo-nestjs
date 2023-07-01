@@ -3,3 +3,8 @@ export class newTask {
   todo: string;
   isCompleted: boolean;
 }
+
+export interface updateTodo {
+  todo: string;
+  isCompleted: boolean;
+}
