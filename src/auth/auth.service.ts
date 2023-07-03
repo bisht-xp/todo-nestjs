@@ -1,10 +1,10 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, MongooseError } from 'mongoose';
-import { User } from 'src/model/user.model';
+import { Model } from 'mongoose';
+import { User } from '../model/user.model';
 import { AuthDto } from './dto';
 import * as argon2 from 'argon2';
-import { generateAccessToken } from 'src/utils/jwt';
+import { generateAccessToken } from '../utils/jwt';
 
 @Injectable()
 export class AuthService {

@@ -1,7 +1,7 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import * as dotenv from 'dotenv';
 import { InjectModel } from '@nestjs/mongoose';
-import { Todo } from 'src/model/todo.model';
+import { Todo } from '../model/todo.model';
 import { newTask } from 'src/utils/constants';
 import { Model } from 'mongoose';
 import { updateTodo } from './todo.dto';

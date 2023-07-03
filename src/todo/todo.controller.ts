@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { newTask, updateTodo } from './todo.dto';
 import { TodoService } from './todo.service';
-import { verifyAccessToken } from 'src/utils/jwt';
+import { verifyAccessToken } from '../utils/jwt';
 
 @Controller('')
 export class TodoController {
